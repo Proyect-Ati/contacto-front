@@ -4,19 +4,23 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Contact } from '../interfaces/contact.interface';
 import { ApiResponse } from '../../../shared/interfaces/api.response.interface';
-
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactService {
-  private readonly apiUrl = 'http://localhost:3000/api/contacts';
+  private readonly apiUrl = environment.apiUrl;
+
+  private readonly context = 'api/contacts';
 
   constructor(private readonly http: HttpClient) {}
 
-  private handleResponse<T>(response: Observable<ApiResponse<T>>): Observable<T> {
+  private handleResponse<T>(
+    response: Observable<ApiResponse<T>>
+  ): Observable<T> {
     return response.pipe(
-      map(res => {
+      map((res) => {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           return res.data;
         }
@@ -27,31 +31,41 @@ export class ContactService {
 
   getContacts(): Observable<Contact[]> {
     return this.handleResponse(
-      this.http.get<ApiResponse<Contact[]>>(this.apiUrl)
+      this.http.get<ApiResponse<Contact[]>>(`${this.apiUrl}/${this.context}`)
     );
   }
 
   getContactById(id: number): Observable<Contact> {
     return this.handleResponse(
-      this.http.get<ApiResponse<Contact>>(`${this.apiUrl}/${id}`)
+      this.http.get<ApiResponse<Contact>>(
+        `${this.apiUrl}/${this.context}/${id}`
+      )
     );
   }
 
   createContact(contact: Contact): Observable<Contact> {
     return this.handleResponse(
-      this.http.post<ApiResponse<Contact>>(this.apiUrl, contact)
+      this.http.post<ApiResponse<Contact>>(
+        `${this.apiUrl}/${this.context}`,
+        contact
+      )
     );
   }
 
   updateContact(id: number, contact: Contact): Observable<Contact> {
     return this.handleResponse(
-      this.http.put<ApiResponse<Contact>>(`${this.apiUrl}/${id}`, contact)
+      this.http.put<ApiResponse<Contact>>(
+        `${this.apiUrl}/${this.context}/${id}`,
+        contact
+      )
     );
   }
 
   deleteContact(id: number): Observable<void> {
     return this.handleResponse(
-      this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`)
+      this.http.delete<ApiResponse<void>>(
+        `${this.apiUrl}/${this.context}/${id}`
+      )
     );
   }
 }
