@@ -1,0 +1,29 @@
+<div class="overflow-x-auto">
+  <table mat-table [dataSource]="dataSource" class="w-full">
+
+    @for (column of displayedColumns; track column.key) {
+      <ng-container [matColumnDef]="column.key">
+        <th mat-header-cell *matHeaderCellDef class="font-bold">
+          {{ column.name }}
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          @if (column.key !== 'actions') {
+            {{ element[column.key] }}
+          } @else {
+            <button mat-icon-button color="primary" (click)="onEdit(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          }
+        </td>
+      </ng-container>
+    }
+
+<tr mat-header-row *matHeaderRowDef="columnKeys"></tr>
+<tr mat-row *matRowDef="let row; columns: columnKeys"></tr>
+
+  </table>
+</div>

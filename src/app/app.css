@@ -1,0 +1,47 @@
+/* Estilos adicionales */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Responsive table */
+@media (max-width: 640px) {
+  .mat-table {
+    border: 0;
+    vertical-align: middle;
+  }
+
+  .mat-table caption {
+    font-size: 1em;
+  }
+  
+  .mat-table .mat-row {
+    border-bottom: 5px solid #ddd;
+    display: block;
+  }
+  
+  .mat-table .mat-cell {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 1em;
+    text-align: right;
+    padding: 8px 0;
+  }
+  
+  .mat-table .mat-cell:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+  
+  .mat-table .mat-cell:last-child {
+    border-bottom: 0;
+  }
+  
+  .mat-table .mat-cell:first-child {
+    margin-top: 4%;
+  }
+}
